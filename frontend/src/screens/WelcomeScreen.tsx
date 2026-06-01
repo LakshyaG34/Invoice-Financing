@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 export default function WelcomeScreen({
   navigation,
 }: any) {
@@ -16,9 +18,7 @@ export default function WelcomeScreen({
           navigation.navigate("Register")
         }
       >
-        <Text style={styles.hamburgerText}>
-          ☰
-        </Text>
+        <AntDesign name="menu" size={24} color="black" />
       </TouchableOpacity>
 
       <Text style={styles.title}>
