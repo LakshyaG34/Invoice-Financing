@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 import {
   View,
@@ -12,6 +13,7 @@ import {
 import { registerUser } from "../services/authService";
 
 export default function RegisterScreen() {
+  const navigation = useNavigation<any>();
   const [organizationName, setOrganizationName] =
     useState("");
 
@@ -41,7 +43,13 @@ export default function RegisterScreen() {
 
       Alert.alert(
         "Success",
-        response.message
+        response.message,[
+          {
+            text: "Go to Login",
+            onPress: () =>
+              navigation.navigate("Login"),
+          }
+        ]
       );
     } catch (error: any) {
       Alert.alert(

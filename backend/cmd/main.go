@@ -44,6 +44,11 @@ func main() {
 		authHandler.Register,
 	)
 
+	router.POST(
+		"/api/auth/login",
+		authHandler.Login,
+	)
+
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "API running",

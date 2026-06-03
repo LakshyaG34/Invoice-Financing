@@ -1,6 +1,5 @@
 package auth
 
-
 import (
 	"context"
 	"errors"
@@ -20,7 +19,6 @@ func NewService(
 		repo: repo,
 	}
 }
-
 
 func (s *Service) Register(
 	ctx context.Context,
@@ -49,27 +47,71 @@ func (s *Service) Register(
 		return err
 	}
 
-	orgID, err := s.repo.CreateOrganization(
+	// orgID, err := s.repo.CreateOrganization(
+	// 	ctx,
+	// 	req.OrganizationName,
+	// )
+
+	// if err != nil {
+	// 	return err
+	// }
+
+	// err = s.repo.CreateUser(
+	// 	ctx,
+	// 	orgID,
+	// 	req.FullName,
+	// 	req.Email,
+	// 	string(hashedPassword),
+	// 	"ADMIN",
+	// )
+
+	// if err != nil {
+	// 	return err
+	// }
+
+	// return nil
+
+	return s.repo.RegisterOrganizationWithAdmin(
 		ctx,
 		req.OrganizationName,
-	)
-
-	if err != nil {
-		return err
-	}
-
-	err = s.repo.CreateUser(
-		ctx,
-		orgID,
 		req.FullName,
 		req.Email,
 		string(hashedPassword),
-		"ADMIN",
+	)
+}
+
+func (s *Service) Login(
+	ctx context.Context,
+	req LoginRequest,
+) (string, error) {
+
+	user, err := s.repo.GetUserByEmail(
+		ctx,
+		req.Email,
 	)
 
 	if err != nil {
-		return err
+		return "", errors.New("invalid credentials")
 	}
 
-	return nil
+	err = bcrypt.CompareHashAndPassword(
+		[]byte(user.PasswordHash),
+		[]byte(req.Password),
+	)
+
+	if err != nil {
+		return "", errors.New("invalid credentials")
+	}
+
+	token, err := GenerateToken(
+		user.ID,
+		user.Email,
+		user.Role,
+	)
+
+	if err != nil {
+		return "", err
+	}
+
+	return token, nil
 }

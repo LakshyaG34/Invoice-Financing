@@ -1,6 +1,6 @@
 import { api } from "./api";
 
-import { RegisterRequest } from "../types/auth";
+import { LoginRequest, RegisterRequest } from "../types/auth";
 
 export const registerUser = async (
   data: RegisterRequest
@@ -10,5 +10,18 @@ export const registerUser = async (
     data
   );
 
+  return response.data;
+};
+
+
+export const loginUser = async (
+  data: LoginRequest
+) => {
+  const response = await api.post(
+    "/auth/login",
+    data
+  );
+
+  // console.log(response.token);
   return response.data;
 };
