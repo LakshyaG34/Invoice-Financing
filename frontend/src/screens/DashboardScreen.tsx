@@ -5,21 +5,14 @@ import {
   StyleSheet,
 } from "react-native";
 
-import {
-  removeToken,
-} from "../services/authStorage";
+import { useAuth } from "../context/AuthContext";
 
-export default function DashboardScreen({
-  navigation,
-}: any) {
+export default function DashboardScreen() {
+
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
-
-    await removeToken();
-
-    navigation.replace(
-      "Login"
-    );
+    await logout();
   };
 
   return (

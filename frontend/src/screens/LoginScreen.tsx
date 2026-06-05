@@ -10,15 +10,10 @@ import {
 } from "react-native";
 
 import { loginUser } from "../services/authService";
-import {
-  getToken,
-  saveToken,
-} from "../services/authStorage";
-import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginScreen() {
-
-  const navigation = useNavigation<any>();
+  const { login } = useAuth();
 
   const [email, setEmail] =
     useState("");
@@ -40,25 +35,7 @@ export default function LoginScreen() {
           password,
         });
 
-      await saveToken(
-        response.token
-      );
-
-      await saveToken(response.token);
-
-      const token =
-        await getToken();
-
-      console.log(token);
-
-      console.log(
-        "TOKEN:",
-        response.token
-      );
-
-      navigation.replace(
-        "Dashboard"
-      );
+      await login(response.token);
 
     } catch (error: any) {
 
