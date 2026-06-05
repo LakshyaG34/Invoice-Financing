@@ -10,8 +10,15 @@ import {
 } from "react-native";
 
 import { loginUser } from "../services/authService";
+import {
+  getToken,
+  saveToken,
+} from "../services/authStorage";
+import { useNavigation } from "@react-navigation/native";
 
 export default function LoginScreen() {
+
+  const navigation = useNavigation<any>();
 
   const [email, setEmail] =
     useState("");
@@ -33,14 +40,24 @@ export default function LoginScreen() {
           password,
         });
 
+      await saveToken(
+        response.token
+      );
+
+      await saveToken(response.token);
+
+      const token =
+        await getToken();
+
+      console.log(token);
+
       console.log(
         "TOKEN:",
         response.token
       );
 
-      Alert.alert(
-        "Success",
-        "Login successful"
+      navigation.replace(
+        "Dashboard"
       );
 
     } catch (error: any) {
@@ -48,7 +65,7 @@ export default function LoginScreen() {
       Alert.alert(
         "Error",
         error?.response?.data?.error ||
-          "Login failed"
+        "Login failed"
       );
 
     } finally {

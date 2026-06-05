@@ -43,19 +43,19 @@ export default function RegisterScreen() {
 
       Alert.alert(
         "Success",
-        response.message,[
-          {
-            text: "Go to Login",
-            onPress: () =>
-              navigation.navigate("Login"),
-          }
-        ]
+        response.message, [
+        {
+          text: "Go to Login",
+          onPress: () =>
+            navigation.navigate("Login"),
+        }
+      ]
       );
     } catch (error: any) {
       Alert.alert(
         "Error",
         error?.response?.data?.error ||
-          "Registration failed !!!"
+        "Registration failed !!!"
       );
     } finally {
       setLoading(false);
@@ -107,6 +107,17 @@ export default function RegisterScreen() {
             : "Create Account"}
         </Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate("Login")}
+        style={styles.loginRedirect}
+      >
+        <Text style={styles.loginRedirectText}>
+          Already have an account? Login
+        </Text>
+      </TouchableOpacity>
+
+
     </View>
   );
 }
@@ -150,6 +161,15 @@ const styles = StyleSheet.create({
 
     textAlign: "center",
 
+    fontWeight: "600",
+  },
+  loginRedirect: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+
+  loginRedirectText: {
+    color: "#2563EB",
     fontWeight: "600",
   },
 });

@@ -47,30 +47,6 @@ func (s *Service) Register(
 		return err
 	}
 
-	// orgID, err := s.repo.CreateOrganization(
-	// 	ctx,
-	// 	req.OrganizationName,
-	// )
-
-	// if err != nil {
-	// 	return err
-	// }
-
-	// err = s.repo.CreateUser(
-	// 	ctx,
-	// 	orgID,
-	// 	req.FullName,
-	// 	req.Email,
-	// 	string(hashedPassword),
-	// 	"ADMIN",
-	// )
-
-	// if err != nil {
-	// 	return err
-	// }
-
-	// return nil
-
 	return s.repo.RegisterOrganizationWithAdmin(
 		ctx,
 		req.OrganizationName,
